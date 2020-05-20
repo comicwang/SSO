@@ -18,13 +18,12 @@ namespace Domain.SSO.Server
 
             if (Domain.Security.SmartAuthenticate.LoginUser != null)
             {
-                this.lblMessage.Text = "登录成功，登录用户："
-                    + Domain.Security.SmartAuthenticate.LoginUser.UserName
-                    + "<a href='logout.aspx'>退出</a>";
+                this.lblMessage.Text = "用户："
+                    + Domain.Security.SmartAuthenticate.LoginUser.UserName;
             }
             else
             {
-                this.lblMessage.Text = "未登录 <a href='login.aspx'>登录</a>";
+                Response.Redirect("/Login.aspx");
             }
         }
     }

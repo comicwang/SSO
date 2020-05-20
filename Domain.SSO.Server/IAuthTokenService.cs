@@ -9,5 +9,6 @@ namespace Domain.SSO.Server
     {
         Domain.SSO.Entity.SSOToken ValidateToken(string tokenID);
         bool KeepToken(string tokenID);
+        string GetToken(string userName, string password);
     }
 }

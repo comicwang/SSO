@@ -1,6 +1,7 @@
 ﻿using Domain.SSO.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,17 +71,29 @@ namespace Domain.Security
 
         #region 验证用户名和密码
 
-        public static bool ValidateUser(string userName, string password)
+        public static SSOUser ValidateUser(string userName, string password)
         {
             if (string.IsNullOrEmpty(userName))
-                return false;
+                return null;
 
             var userEntity = new LoginUserModel();
             userEntity.UserName = userName;
             string psw = MD5Helper.MD5Encrypt(password);
-            object result = SqlHelper.ExecuteScalar($"select * from login_user where Account='{userName}' and Password='{psw}'");
-
-            return result != null;
+            DataSet result = SqlHelper.ExecuteDataset($"select * from login_user where Account='{userName}' and Password='{psw}'");
+            if (result!=null&&result.Tables.Count>0&&result.Tables[0].Rows.Count>0)
+            {
+                DataRow row = result.Tables[0].Rows[0];
+                SSOUser sSOUser = new SSOUser()
+                {
+                    UserName = row["UserName"].ToString(),
+                    Account = row["Account"].ToString(),
+                    Department = row["Department"].ToString(),
+                    Orgin = row["Orgin"].ToString(),
+                    Role = row["Role"].ToString()
+                };
+                return sSOUser;
+            }
+            return null;
         }
 
         #endregion
@@ -165,16 +178,17 @@ namespace Domain.Security
         /// <param name="password"></param>
         /// <param name="rememberMe"></param>
         /// <returns></returns>
-        public static bool AuthenticateUser(string username, string password, bool rememberMe)
+        public static bool AuthenticateUser(string username, string password, bool rememberMe,out string myticket)
         {
             string un = (username ?? string.Empty).Trim();
             string pw = (password ?? string.Empty).Trim();
 
+
             if (!string.IsNullOrWhiteSpace(un) && !string.IsNullOrWhiteSpace(pw))
             {
-                bool isValidated = ValidateUser(un, pw);
+                SSOUser isValidated = ValidateUser(un, pw);
 
-                if (isValidated)
+                if (isValidated != null)
                 {
                     HttpContext context = HttpContext.Current;
                     DateTime expirationDate = DateTime.Now.Add(FormsAuthentication.Timeout);
@@ -185,11 +199,19 @@ namespace Domain.Security
                         DateTime.Now,
                         expirationDate,
                         rememberMe,
-                        string.Format("{0}{1}{2}{1}{3}", SecurityValidationKey, AUTH_TKT_USERDATA_DELIMITER, un, pw),
+                        string.Format("{0}{1}{2}{1}{3}{4}", SecurityValidationKey, AUTH_TKT_USERDATA_DELIMITER, un, pw,Guid.NewGuid()),
                         FormsAuthentication.FormsCookiePath
                     );
 
                     string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+                    //持久化Token
+                    SSOToken token = new SSOToken(encryptedTicket);
+
+                    token.User = isValidated;
+                    //token.User.UserName = Domain.Security.SmartAuthenticate.LoginUser.UserName;
+                    //token.LoginID = Session.SessionID;
+                    Domain.SSO.Entity.SSOToken.SSOTokenList.Add(token);
 
                     HttpCookie cookie = new HttpCookie(FormsAuthCookieName, encryptedTicket);
                     cookie.Expires = rememberMe ? expirationDate : DateTime.MinValue;
@@ -198,10 +220,11 @@ namespace Domain.Security
                     //cookie.Domain = "domain.com";
                     context.Response.Cookies.Set(cookie);
 
+                    myticket = encryptedTicket;
                     return true;
                 }
             }
-
+            myticket = string.Empty;
             return false;
         }
 

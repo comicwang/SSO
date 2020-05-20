@@ -43,7 +43,7 @@ namespace Domain.Security
             if (string.IsNullOrEmpty(password))
                 throw new ArgumentNullException("password");
 
-            if (!SmartAuthenticate.ValidateUser(username, password)) { return; }
+            if (SmartAuthenticate.ValidateUser(username, password) == null) { return; }
 
             _isAuthenticated = true;
             _name = username;

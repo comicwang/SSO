@@ -18,7 +18,6 @@ namespace Domain.SSO.Server
         {
             string userName = this.txtUserName.Text.Trim();
             string password = this.txtPassword.Text.Trim();
-
             if (string.IsNullOrEmpty(userName))
             {
                 this.lblMessage.Text = "用户名不能为空";
@@ -30,21 +29,27 @@ namespace Domain.SSO.Server
                 this.lblMessage.Text = "密码不能为空";
                 return;
             }
-
-            if (Domain.Security.SmartAuthenticate.AuthenticateUser(userName, password, true))
+            string token = string.Empty;
+            if (Domain.Security.SmartAuthenticate.AuthenticateUser(userName, password, true,out token))
             {
                 this.lblMessage.Text = "登录成功";
                 string returnUrl = Request["returnUrl"];
                 if (string.IsNullOrEmpty(returnUrl))
                     Response.Redirect("default.aspx");
                 else
+                {
+                    //拼接返回的url，参数中带Token
+                    string spliter = returnUrl.Contains('?') ? "&" : "?";
+                    returnUrl = returnUrl + spliter + "token=" + token;
                     Response.Redirect(returnUrl);
+                }
             }
             else
             {
                 this.lblMessage.Text = "登录失败，请重试";
                 return;
             }
+            
         }
     }
 }

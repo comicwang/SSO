@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -39,6 +40,18 @@ namespace Domain.SSO.Server
 
             token.AuthTime = DateTime.Now;
             return true;
+        }
+
+        [WebMethod]
+        public string GetToken(string userName,string password)
+        {
+            string result = string.Empty;
+            //验证通过
+            if(SmartAuthenticate.AuthenticateUser(userName,password,true,out result))
+            {               
+                return result;
+            }
+            return string.Empty;
         }
 
         #endregion

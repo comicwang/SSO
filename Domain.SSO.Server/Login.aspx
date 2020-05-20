@@ -11,35 +11,43 @@
         * {
             box-sizing: border-box;
         }
-        body {
-            margin: 0; 
-            padding: 0;
-            font: 16px/20px microsft yahei;
-        }
-        .wrap {
-            width: 100%;
-            height: 400px;
-            padding: 40px 0;
-            position: fixed;
-            top: 50%;
-            margin-top: -200px;
-            opacity: 0.8;
-            background: linear-gradient(to bottom right,#50a3a2,#53e3a6);
-            background: -webkit-linear-gradient(to bottom right,#50a3a2,#53e3a6);
-        }
-        .container {
-            width: 60%;
-            margin: 0 auto;
-        }
+            body {
+                font-size: 15px;
+                font-family: Verdana, sans-serif;
+               
+                margin: 0px;
+            }
+            .title{
+                 opacity: 0.8;
+               
+                font-size:50px;text-align:center;
+            }
+            .wrap {
+                width: 100%;
+                height: 400px;
+                padding: 40px 0;
+                position: fixed;
+                top: 50%;
+                margin-top: -200px;
+                opacity: 0.8;
+                background: linear-gradient(to bottom right,#50a3a2,#53e3a6);
+                background: -webkit-linear-gradient(to bottom right,#50a3a2,#53e3a6);
+                border-radius: 10px;
+            }
+
+            .container {
+                width: 60%;
+                margin: 0 auto;
+            }
         .container h1 {
             text-align: center;
             color: #FFFFFF;
             font-weight: 500;
         }
         .container input {
-            width: 320px;
+            width: 400px;
             display: block;
-            height: 36px;
+            height: 45px;
             border: 0;
             outline: 0;
             padding: 6px 10px;
@@ -48,13 +56,14 @@
             -webkit-transition: all 0s ease-in 0.1ms;
             -moz-transition: all 0s ease-in 0.1ms;
             transition: all 0s ease-in 0.1ms;
+            border-radius:5px;
         }
         .container input[type="text"] , .container input[type="password"]  {
             background-color: #FFFFFF;
             font-size: 16px;
             color: #50a3a2;
         }
-        .container login {
+        .container #btnLogin {
             font-size: 16px;
             letter-spacing: 2px;
             color: #666666;
@@ -63,31 +72,33 @@
         .container input:focus {
            /* width: 400px;*/
         }
-        .container login:hover {
+        .container #btnLogin:hover {
             cursor: pointer;
+            background-color:#153e50;
              /* width: 400px;*/
+             color:#fff
         }
 
-        .wrap ul {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -10;
-        }
-        .wrap ul li {
-            list-style-type: none;
-            display: block;
-            position: absolute;
-            bottom: -120px;
-            width: 15px;
-            height: 15px;
-            z-index: -8;
-            background-color:rgba(255, 255, 255, 0.15);
-            animotion: square 25s infinite;
-            -webkit-animation: square 25s infinite;
-        }
+            .wrap ul {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -10;
+            }
+                .wrap ul li {
+                    list-style-type: none;
+                    display: block;
+                    position: absolute;
+                    bottom: -120px;
+                    width: 15px;
+                    height: 15px;
+                    z-index: -8;
+                    background-color: rgba(255, 255, 255, 0.15);
+                    animotion: square 25s infinite;
+                    -webkit-animation: square 25s infinite;
+                }
         .wrap ul li:nth-child(1) {
             left: 0;
             animation-duration: 10s;
@@ -209,21 +220,53 @@
                 transform: translateY(-500)
             }
         }
-    </style>
+            #lblMessage {
+                font-size: 16px;
+            }
+            .alert {
+                width: 400px;
+                display: block;
+                height: 35px;
+                border: 0;
+                outline: 0;
+                padding: 6px 10px;
+                line-height: 24px;
+                margin: 32px auto;
+                border: 1px solid transparent;
+                border-radius: 4px;
+               display:none;
+            }
+
+            .alert-danger {
+                color: #a94442;
+                background-color: #f2dede;
+                border-color: #ebccd1;
+            }
+        </style>
 </head>
 <body>
-    <div class="wrap">
-        <div class="container">
-            <h1>统一认证平台</h1>
+    <h1 class="title">SSO统一认证平台</h1>
+   
+           <%-- <h1>用户登陆</h1>--%>
     <form id="form1" runat="server">
+         <div class="wrap">
+        <div class="container">
+
         <asp:TextBox runat="server" ID="txtUserName"  placeholder="用户名"></asp:TextBox>
         <asp:TextBox runat="server" ID="txtPassword" placeholder="密码" TextMode="Password"></asp:TextBox>
         <asp:Button runat="server" ID="btnLogin" OnClick="btnLogin_Click" CssClass="login" Text="登录" />
-        <p style="text-align:center">
-            <asp:Label ID="lblMessage" Text="" runat="server" />
+
+        <p style="text-align:center;color:#ff0000">
+           <asp:Label ID="lblMessage"  Text="" runat="server" />
         </p>
-    </form>
-            </div>
+                        </div>
         </div>
+        <div style="position:absolute;bottom:10px;text-align:center;width:100%">
+         
+        <p>出于安全考虑，一旦您访问过那些需要您提供凭证信息的应用时，请操作完成之后<a href="Logout.aspx">登出</a>并关闭浏览器。</p>
+            
+            </div>
+    </form>
+
 </body>
 </html>

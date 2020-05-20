@@ -7,11 +7,13 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Domain.SSO.Server {
-    
-    
-    public partial class Login {
-        
+namespace Domain.SSO.Server
+{
+
+
+    public partial class Login
+    {
+
         /// <summary>
         /// Head1 控件。
         /// </summary>
@@ -20,7 +22,7 @@ namespace Domain.SSO.Server {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
-        
+
         /// <summary>
         /// form1 控件。
         /// </summary>
@@ -29,7 +31,7 @@ namespace Domain.SSO.Server {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// txtUserName 控件。
         /// </summary>
@@ -38,7 +40,7 @@ namespace Domain.SSO.Server {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUserName;
-        
+
         /// <summary>
         /// txtPassword 控件。
         /// </summary>
@@ -47,7 +49,7 @@ namespace Domain.SSO.Server {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
-        
+
         /// <summary>
         /// btnLogin 控件。
         /// </summary>
@@ -56,7 +58,7 @@ namespace Domain.SSO.Server {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLogin;
-        
+
         /// <summary>
         /// lblMessage 控件。
         /// </summary>

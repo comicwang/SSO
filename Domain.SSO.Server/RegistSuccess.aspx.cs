@@ -17,7 +17,8 @@ namespace Domain.SSO.Server
 
                 string userName = Request.QueryString[0];
                 string password = Request.QueryString[1];
-                if (Domain.Security.SmartAuthenticate.AuthenticateUser(userName, password, true))
+                string token = string.Empty;
+                if (Domain.Security.SmartAuthenticate.AuthenticateUser(userName, password, true,out token))
                 {
                     string returnUrl = Request["returnUrl"];
                     if (string.IsNullOrEmpty(returnUrl))

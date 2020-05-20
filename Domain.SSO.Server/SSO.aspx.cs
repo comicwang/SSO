@@ -21,30 +21,30 @@ namespace Domain.SSO.Server
                 //判断returnUrl是否为信任的Domain
             }
 
-            //判断当前是否登录
-            if (Domain.Security.SmartAuthenticate.LoginUser != null)
-            {
-                //生成Token，并持久化Token
-                Domain.SSO.Entity.SSOToken token = new Entity.SSOToken();
+            ////判断当前是否登录
+            //if (Domain.Security.SmartAuthenticate.LoginUser != null)
+            //{
+            //    //生成Token，并持久化Token
+            //    Domain.SSO.Entity.SSOToken token = new Entity.SSOToken();
                 
-                token.User = new Entity.SSOUser();
-                token.User.UserName = Domain.Security.SmartAuthenticate.LoginUser.UserName;
-                token.LoginID = Session.SessionID;
-                Domain.SSO.Entity.SSOToken.SSOTokenList.Add(token);
+            //    token.User = new Entity.SSOUser();
+            //    token.User.UserName = Domain.Security.SmartAuthenticate.LoginUser.UserName;
+            //    token.LoginID = Session.SessionID;
+            //    Domain.SSO.Entity.SSOToken.SSOTokenList.Add(token);
 
-                //拼接返回的url，参数中带Token
-                string spliter = returnUrl.Contains('?') ? "&" : "?";
-                returnUrl = returnUrl + spliter + "token=" + token.ID;
-                Response.Redirect(returnUrl);
-            }
-            else
-            {
-                //重定向到登录页面
-                string loginUrl = "login.aspx?returnUrl=";
-                string loginReturnUrl = string.Format("sso.aspx?returnUrl=" + returnUrl);
-                loginUrl += Server.UrlEncode(loginReturnUrl);
-                Response.Redirect(loginUrl);
-            }
+            //    //拼接返回的url，参数中带Token
+            //    string spliter = returnUrl.Contains('?') ? "&" : "?";
+            //    returnUrl = returnUrl + spliter + "token=" + token.ID;
+            //    Response.Redirect(returnUrl);
+            //}
+            //else
+            //{
+            //    //重定向到登录页面
+            //    string loginUrl = "login.aspx?returnUrl=";
+            //    string loginReturnUrl = string.Format("sso.aspx?returnUrl=" + returnUrl);
+            //    loginUrl += Server.UrlEncode(loginReturnUrl);
+            //    Response.Redirect(loginUrl);
+            //}
         }
     }
 }

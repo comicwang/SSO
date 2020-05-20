@@ -471,19 +471,35 @@ namespace Domain.Security
                 return ExecuteDataset(connectionString, commandType, commandText, (MySqlParameter[])null);
             }
 
-            /// <summary>   
-            /// 执行指定数据库连接字符串的命令,返回DataSet.   
-            /// </summary>   
-            /// <remarks>   
-            /// 示例:   
-            ///  DataSet ds = ExecuteDataset(connString, CommandType.StoredProcedure, "GetOrders", new MySqlParameter("@prodid", 24));   
-            /// </remarks>   
-            /// <param name="connectionString">一个有效的数据库连接字符串</param>   
-            /// <param name="commandType">命令类型 (存储过程,命令文本或其它)</param>   
-            /// <param name="commandText">存储过程名称或T-SQL语句</param>   
-            /// <param name="commandParameters">SqlParamters参数数组</param>   
-            /// <returns>返回一个包含结果集的DataSet</returns>   
-            public static DataSet ExecuteDataset(string connectionString, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        /// <summary>   
+        /// 执行指定数据库连接字符串的命令,返回DataSet.   
+        /// </summary>   
+        /// <remarks>   
+        /// 示例:    
+        ///  DataSet ds = ExecuteDataset(connString, CommandType.StoredProcedure, "GetOrders");   
+        /// </remarks>   
+        /// <param name="connectionString">一个有效的数据库连接字符串</param>   
+        /// <param name="commandType">命令类型 (存储过程,命令文本或其它)</param>   
+        /// <param name="commandText">存储过程名称或T-SQL语句</param>   
+        /// <returns>返回一个包含结果集的DataSet</returns>   
+        public static DataSet ExecuteDataset(string commandText)
+        {
+            return ExecuteDataset(GetConnection(), CommandType.Text, commandText, (MySqlParameter[])null);
+        }
+
+        /// <summary>   
+        /// 执行指定数据库连接字符串的命令,返回DataSet.   
+        /// </summary>   
+        /// <remarks>   
+        /// 示例:   
+        ///  DataSet ds = ExecuteDataset(connString, CommandType.StoredProcedure, "GetOrders", new MySqlParameter("@prodid", 24));   
+        /// </remarks>   
+        /// <param name="connectionString">一个有效的数据库连接字符串</param>   
+        /// <param name="commandType">命令类型 (存储过程,命令文本或其它)</param>   
+        /// <param name="commandText">存储过程名称或T-SQL语句</param>   
+        /// <param name="commandParameters">SqlParamters参数数组</param>   
+        /// <returns>返回一个包含结果集的DataSet</returns>   
+        public static DataSet ExecuteDataset(string connectionString, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
             {
                 if (connectionString == null || connectionString.Length == 0) throw new ArgumentNullException("connectionString");
 

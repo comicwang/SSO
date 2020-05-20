@@ -24,7 +24,14 @@ namespace Domain.SSO.Entity
         {
             this.ID = Guid.NewGuid().ToString("N");
             this.AuthTime = DateTime.Now;
-            this.TimeOut = 60 * 10; //10分钟
+            this.TimeOut = 60 * 60 * 24; //10分钟
+        }
+
+        public SSOToken(string ticket)
+        {
+            this.ID = ticket;
+            this.AuthTime = DateTime.Now;
+            this.TimeOut = 60 * 60 * 24; //24小时
         }
 
         //是否超时
